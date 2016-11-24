@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+
 public class ChatServer {
 	private ArrayList<PrintWriter> clientOutputStreams;
 	private int maxClientsCount;
@@ -24,41 +25,55 @@ public class ChatServer {
 		}
 	}
 
-	private void setUpNetworking() throws Exception {
-		clientOutputStreams = new ArrayList<PrintWriter>();
-		@SuppressWarnings("resource")
-		ServerSocket serverSock = new ServerSocket(9332);
-		while (true) {
-			try{
-			 clientSocket = serverSock.accept();
-			 int i = 0;
-		        for (i = 0; i < maxClientsCount; i++) {
-		          if (threads[i] == null) {
-		            (threads[i] = new ChatClient(clientSocket, threads)).start();
-		            break;
-		          }
-		        }
-		        if (i == maxClientsCount) {
-		          PrintStream os = new PrintStream(clientSocket.getOutputStream());
-		          os.println("Server too busy. Try later.");
-		          os.close();
-		          clientSocket.close();
-		        }
-		      } catch (IOException e) {
-		        System.out.println(e);
-		      }
-			PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
-			clientOutputStreams.add(writer);
+//	private void setUpNetworking() throws Exception {
+//		clientOutputStreams = new ArrayList<PrintWriter>();
+//		@SuppressWarnings("resource")
+//		ServerSocket serverSock = new ServerSocket(9332);
+//		while (true) {
+//			try{
+//			 clientSocket = serverSock.accept();
+//			 int i = 0;
+//		        for (i = 0; i < maxClientsCount; i++) {
+//		          if (threads[i] == null) {
+//		            (threads[i] = new ChatClient()).start();
+//		            break;
+//		          }
+//		        }
+//		        if (i == maxClientsCount) {
+//		          PrintStream os = new PrintStream(clientSocket.getOutputStream());
+//		          os.println("Server too busy. Try later.");
+//		          os.close();
+//		          clientSocket.close();
+//		        }
+//		      } catch (IOException e) {
+//		        System.out.println(e);
+//		      }
+//			PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+//			clientOutputStreams.add(writer);
+//
+//			Thread t = new Thread(new ClientHandler(clientSocket));
+//			t.start();
+//			System.out.println("got a connection");
+//			
+//		    }
+//			
+//		}
 
-			Thread t = new Thread(new ClientHandler(clientSocket));
-			t.start();
-			System.out.println("got a connection");
-			
-		    }
-			
-		}
+private void setUpNetworking() throws Exception {
+	clientOutputStreams = new ArrayList<PrintWriter>();
+	@SuppressWarnings("resource")
+	ServerSocket serverSock = new ServerSocket(4242);
+	while (true) {
+		Socket clientSocket = serverSock.accept();
+		PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+		clientOutputStreams.add(writer);
 
-	
+		Thread t = new Thread(new ClientHandler(clientSocket));
+		t.start();
+		System.out.println("got a connection");
+	}
+
+}
 
 	private void notifyClients(String message) {
 
