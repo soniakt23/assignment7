@@ -1,55 +1,17 @@
-//package day23network;
+import java.util.ArrayList;
 
-import java.io.*;
-import java.net.*;
-import java.util.ResourceBundle;
+public class ChatClient {
+	String username;
+	String password;
+	ChatClientGUI gui;
+	ArrayList<String> chatHistory = new ArrayList<String>();
+	ArrayList<ChatClient> friends = new ArrayList<ChatClient>();
 
-import javax.swing.*;
-
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.awt.*;
-import java.awt.event.*;
-
-public class ChatClient extends Application {
-		
-		@Override
-		public void start(Stage primaryStage) {
-			Stage clientStage = new Stage();
-			AnchorPane clientPane;
-			try {
-				clientPane = (AnchorPane) FXMLLoader.load(ChatClient.class.getResource("ChatClientController.fxml"));
-				Scene clientScene = new Scene(clientPane);
-				clientStage.setScene(clientScene);
-					
-				clientStage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-		public static void main(String[] args) {
-			try {
-				//Application.launch(ChatClient.class, (java.lang.String[])null);
-				//new ChatClientController().run();
-				launch(args);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	public ChatClient(String username) {
+	super();
+	this.username = username;
+	ChatServer.clients.add(this);
+	gui = new ChatClientGUI();
+	gui.start(null);
+}
 }

@@ -25,6 +25,7 @@ public class ChatClientController implements Initializable {
 //	private int maxClientsCount;
 //	private Socket clientSocket;
 	
+	private ChatClient client;
 	private static BufferedReader reader;
 	private static PrintWriter writer;
 	private static InputStreamReader streamReader;
@@ -37,41 +38,14 @@ public class ChatClientController implements Initializable {
 	private TextField outgoing;
 	
 	@FXML
-	private TextField username;
-	
-	@FXML
 	private Button sendButton;
-	
-//	  public ChatClient(Socket clientSocket, ChatClient[] threads) {
-//	    this.clientSocket = clientSocket;
-//	    this.threads = threads;
-//	    maxClientsCount = threads.length;
-//	  }
-	  
-
-	public void run() {
-			try {
-//			initView();
-//			setUpNetworking();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	  
-//	public void run() {
-//		initView();
-//		try {
-//			setUpNetworking();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 		
 		@Override
 		public void initialize(URL fxmlFileLoction, ResourceBundle resources) {
 			incoming.setEditable(false);
-			//outgoing.requestFocus();
+			outgoing.requestFocus();
+			
+			client = ChatServer.clients.get(ChatServer.clients.size()-1);
 			
 			try {
 				setUpNetworking();
@@ -80,11 +54,10 @@ public class ChatClientController implements Initializable {
 				e.printStackTrace();
 			}
 			
-//			sendButton.addActionListener(new SendButtonListener());
 			sendButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					writer.println(outgoing.getText());
+					writer.println(client.username + ": " + outgoing.getText()); //client.username + ": " + 
 					writer.flush();
 					outgoing.setText("");
 					outgoing.requestFocus();

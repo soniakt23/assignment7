@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javafx.application.Application;
 
 
 public class ChatServer {
@@ -15,6 +18,9 @@ public class ChatServer {
 	private int maxClientsCount;
 	Socket clientSocket;
 	private final ChatClient[] threads = new ChatClient [maxClientsCount];
+	static ArrayList<ChatClient> clients = new ArrayList<ChatClient>();
+	public static int numClients;
+	private final HashMap<ChatClient, PrintWriter> clientWriters = new HashMap<ChatClient, PrintWriter>();
 
 	public static void main(String[] args) {
 		try {
@@ -67,6 +73,7 @@ private void setUpNetworking() throws Exception {
 		Socket clientSocket = serverSock.accept();
 		PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
 		clientOutputStreams.add(writer);
+		//clientWriters.put(clients.get(numClients), writer);
 
 		Thread t = new Thread(new ClientHandler(clientSocket));
 		t.start();
