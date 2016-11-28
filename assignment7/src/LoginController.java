@@ -51,6 +51,7 @@ public class LoginController implements Initializable {
 						client.setGUIClient();
 						client.gui.start(null);
 						addUserToDB(username.getText(), password.getText());
+						LoginClient.loginStage.close();
 						
 						//printlines for debugging
 						System.out.println(ChatServer.numClients);
@@ -58,9 +59,13 @@ public class LoginController implements Initializable {
 					}
 					//if have user and correct password
 					else if (hasUser(username.getText()) && authenticate(username.getText(), password.getText())) {
-						int id = ChatServer.usernameToID.get(username.getText());
-						ChatServer.clients.get(id).gui.start(null);
+						ChatClient client = new ChatClient(username.getText(), password.getText());
+						client.setGUIClient();
+						client.gui.start(null);
+						//int id = ChatServer.usernameToID.get(username.getText());
+						//ChatServer.clients.get(id).gui.start(null);
 						System.out.println(ChatServer.numClients);
+						LoginClient.loginStage.close();
 					}
 				}
 			});

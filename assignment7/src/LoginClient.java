@@ -7,9 +7,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class LoginClient extends Application {
+	static Stage loginStage;
+	
 	@Override
 	public void start(Stage primaryStage) {
-		Stage loginStage = new Stage();
+		loginStage = new Stage();
 		AnchorPane loginPane;
 		try {
 			loginPane = (AnchorPane) FXMLLoader.load(ChatClient.class.getResource("LoginController.fxml"));
