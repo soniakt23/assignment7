@@ -7,11 +7,16 @@ public class ChatClient {
 	ArrayList<String> chatHistory = new ArrayList<String>();
 	ArrayList<ChatClient> friends = new ArrayList<ChatClient>();
 
-	public ChatClient(String username) {
-	super();
-	this.username = username;
-	ChatServer.clients.add(this);
-	gui = new ChatClientGUI();
-	gui.start(null);
-}
+	public ChatClient(String username, String password) {
+		this.username = username;
+		this.password = password;
+		ChatServer.clients.add(this);
+		ChatServer.usernameToID.put(username, ChatServer.clients.indexOf(this));
+		gui = new ChatClientGUI();
+		//gui.start(null);
+	}
+	
+	public void setGUIClient() {
+		gui.client = this;
+	}
 }

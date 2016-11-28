@@ -45,7 +45,7 @@ public class ChatClientController implements Initializable {
 			incoming.setEditable(false);
 			outgoing.requestFocus();
 			
-			client = ChatServer.clients.get(ChatServer.clients.size()-1);
+//			client = ChatServer.clients.get(ChatServer.clients.size()-1);
 			
 			try {
 				setUpNetworking();
@@ -61,6 +61,8 @@ public class ChatClientController implements Initializable {
 					writer.flush();
 					outgoing.setText("");
 					outgoing.requestFocus();
+					System.out.println(ChatServer.numClients);
+					System.out.println(ChatServer.clients.size());
 				}
 			});
 		}
@@ -136,6 +138,11 @@ public class ChatClientController implements Initializable {
 					ex.printStackTrace();
 				}
 			}
+		}
+
+		void setClient(ChatClient client2) {
+			this.client = client2;
+			
 		}
 
 //		class IncomingReader implements Runnable {

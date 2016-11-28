@@ -24,16 +24,22 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChatClientGUI extends Application {
+	Stage clientStage = new Stage();
+	AnchorPane clientPane;
+	ChatClientController controller;
+	ChatClient client;
 
 		@Override
 		public void start(Stage primaryStage) {
-			Stage clientStage = new Stage();
-			AnchorPane clientPane;
 			try {
-				clientPane = (AnchorPane) FXMLLoader.load(ChatClient.class.getResource("ChatClientController.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChatClientController.fxml"));
+				clientPane = (AnchorPane) fxmlLoader.load();
 				Scene clientScene = new Scene(clientPane);
 				clientStage.setScene(clientScene);
-					
+				
+				controller = (ChatClientController) fxmlLoader.getController();
+				controller.setClient(client);
+				
 				clientStage.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

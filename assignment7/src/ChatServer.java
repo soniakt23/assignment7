@@ -18,10 +18,13 @@ public class ChatServer {
 	private int maxClientsCount;
 	Socket clientSocket;
 	private final ChatClient[] threads = new ChatClient [maxClientsCount];
+	static HashMap<String, String> usernameToPassword = new HashMap<String, String>();
 	static ArrayList<ChatClient> clients = new ArrayList<ChatClient>();
-	public static int numClients;
+	public static Integer numClients = new Integer(0);
+	static HashMap<String, Integer> usernameToID = new HashMap<String, Integer>();
 	private final HashMap<ChatClient, PrintWriter> clientWriters = new HashMap<ChatClient, PrintWriter>();
 
+	
 	public static void main(String[] args) {
 		try {
 			ChatServer chat = new ChatServer();
