@@ -1,4 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -6,6 +11,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -83,10 +90,16 @@ public class ChatClientController implements Initializable {
 				public void handle(ActionEvent event) {
 					for (ChatRoom cr : chatRooms){
 						if(tabs.getSelectionModel().getSelectedItem().getContent().equals(cr.txtArea)){
-						writer.println(cr.people + ":" + ChatClient.username + "- " + outgoing.getText());
-						writer.flush();
-						outgoing.setText("");
-						outgoing.requestFocus();
+							//send to everyone in chatroom
+							writer.println(cr.people + ":" + ChatClient.username + "- " + outgoing.getText());
+							writer.flush();
+							
+							//send to chat history
+							ChatHistory.setChatHistory(cr.people, outgoing.getText());
+							
+							//reset outgoing textbox
+							outgoing.setText("");
+							outgoing.requestFocus();
 						}
 					}
 					//get selected tab pane
@@ -118,7 +131,7 @@ public class ChatClientController implements Initializable {
 
 		private void setUpNetworking() throws Exception {
 			@SuppressWarnings("resource")
-			//Socket sock = new Socket("2605:6000:101e:d4:4c11:905e:a913:9030", 4242);
+			//Socket sock = new Socket("128.62.23.11", 4242);
 			Socket sock = new Socket("127.0.0.1", 4242);
 			streamReader = new InputStreamReader(sock.getInputStream());
 			reader = new BufferedReader(streamReader);
@@ -150,6 +163,7 @@ public class ChatClientController implements Initializable {
 							String people[];
 							people = message.split("\\s+");
 							TextArea child = new TextArea();
+							Boolean historyFileExists = ChatHistory.HistoryFileExists(people);
 							for(int i =0; i < people.length; i++){
 								if(people[i].equals(ChatClient.username)){
 									System.out.println("Adding chatroom for"+ people[i]);
@@ -157,9 +171,16 @@ public class ChatClientController implements Initializable {
 										final Tab tab = new Tab("ChatRoom " + (tabs.getTabs().size() + 1));
 								        tabs.getTabs().add(tab);
 								        tabs.getSelectionModel().select(tab);
+								        if (historyFileExists) {
+								        	String chatHistory = ChatHistory.getChatHistory(people);
+								        	child.setText(chatHistory);
+								        }
 								        child.setEditable(false);
 								        tab.setContent(child);
 										});	
+									if (!historyFileExists) {
+										ChatHistory.initializeChatHistory(people);
+									}
 								}
 							}
 							chatRooms.add(new ChatRoom("ChatRoom " + (tabs.getTabs().size() + 1), child,message));
@@ -187,6 +208,9 @@ public class ChatClientController implements Initializable {
 					ex.printStackTrace();
 				}
 			}
+			
+
+	
 		}
 }
 
