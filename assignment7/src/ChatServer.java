@@ -1,6 +1,6 @@
-//package day23network;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -9,22 +9,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
 
 import javafx.application.Application;
 
 
-public class ChatServer {
+public class ChatServer extends Observable {
 	private ArrayList<PrintWriter> clientOutputStreams;
 	private int maxClientsCount;
 	Socket clientSocket;
 	private final ChatClient[] threads = new ChatClient [maxClientsCount];
-	static HashMap<String, String> usernameToPassword = new HashMap<String, String>();
 	static ArrayList<ChatClient> clients = new ArrayList<ChatClient>();
-	public static Integer numClients = new Integer(0);
-	static HashMap<String, Integer> usernameToID = new HashMap<String, Integer>();
-	private final HashMap<ChatClient, PrintWriter> clientWriters = new HashMap<ChatClient, PrintWriter>();
+	public static int numClients;
+	private final HashMap<ChatClient, ChatRoom> clientWriters = new HashMap<ChatClient, ChatRoom>();
+	private String userNameFile = "userlogins.txt";
 
-	
 	public static void main(String[] args) {
 		try {
 			ChatServer chat = new ChatServer();
@@ -34,65 +33,21 @@ public class ChatServer {
 		}
 	}
 
-//	private void setUpNetworking() throws Exception {
-//		clientOutputStreams = new ArrayList<PrintWriter>();
-//		@SuppressWarnings("resource")
-//		ServerSocket serverSock = new ServerSocket(9332);
-//		while (true) {
-//			try{
-//			 clientSocket = serverSock.accept();
-//			 int i = 0;
-//		        for (i = 0; i < maxClientsCount; i++) {
-//		          if (threads[i] == null) {
-//		            (threads[i] = new ChatClient()).start();
-//		            break;
-//		          }
-//		        }
-//		        if (i == maxClientsCount) {
-//		          PrintStream os = new PrintStream(clientSocket.getOutputStream());
-//		          os.println("Server too busy. Try later.");
-//		          os.close();
-//		          clientSocket.close();
-//		        }
-//		      } catch (IOException e) {
-//		        System.out.println(e);
-//		      }
-//			PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
-//			clientOutputStreams.add(writer);
-//
-//			Thread t = new Thread(new ClientHandler(clientSocket));
-//			t.start();
-//			System.out.println("got a connection");
-//			
-//		    }
-//			
-//		}
 
 private void setUpNetworking() throws Exception {
-	clientOutputStreams = new ArrayList<PrintWriter>();
 	@SuppressWarnings("resource")
 	ServerSocket serverSock = new ServerSocket(4242);
 	while (true) {
 		Socket clientSocket = serverSock.accept();
-		PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
-		clientOutputStreams.add(writer);
-		//clientWriters.put(clients.get(numClients), writer);
-
+		ClientObserver writer = new ClientObserver(clientSocket.getOutputStream());
 		Thread t = new Thread(new ClientHandler(clientSocket));
 		t.start();
+		this.addObserver(writer);
 		System.out.println("got a connection");
 	}
-
 }
 
-	private void notifyClients(String message) {
 
-
-		for (PrintWriter writer : clientOutputStreams) {
-			writer.println(message);
-			writer.flush();
-		}
-	}
 
 	class ClientHandler implements Runnable {
 		private BufferedReader reader;
@@ -104,10 +59,23 @@ private void setUpNetworking() throws Exception {
 
 		public void run() {
 			String message;
+			String line;
 			try {
+				
 				while ((message = reader.readLine()) != null) {
 					System.out.println("read " + message);
-					notifyClients(message);
+					if(message.equals("NEW USER")){
+						BufferedReader br = new BufferedReader(new FileReader(userNameFile)); 
+						message = ("NEW USERNAMES");
+						while ((line = br.readLine()) != null)
+						{
+					       message=(message +" "+ line);
+						}
+						
+					}
+					setChanged();
+					notifyObservers(message);
+						
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

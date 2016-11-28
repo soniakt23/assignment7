@@ -28,8 +28,8 @@ public class LoginClient extends Application {
 
 	public static void main(String[] args) {
 		try {
-			System.out.println(ChatServer.clients.size());
-			System.out.println(ChatServer.numClients);
+			//System.out.println(ChatServer.clients.size());
+			//System.out.println(ChatServer.numClients);
 			launch(args);
 			
 		} catch (Exception e) {
