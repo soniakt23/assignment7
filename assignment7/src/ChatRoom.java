@@ -1,14 +1,19 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import javafx.scene.control.TextArea;
 
 public class ChatRoom {
-	String people;
+	String [] people;
 	String chatRoomName;
 	TextArea txtArea;
+	String total;
 	
-	public ChatRoom(  String chatRoomName, TextArea txtArea, String people){
+	public ChatRoom(  String chatRoomName, TextArea txtArea, String [] people, String total){
 		this.chatRoomName= chatRoomName;
 		this.txtArea = txtArea;
 		this.people = people;
+		this.total = total;
 		this.Greeting();
 		
 	}
@@ -19,8 +24,12 @@ public class ChatRoom {
 	
 
 	public void Greeting (){
-		txtArea.appendText(people+", say hi to each other!"+"\n");
+		txtArea.appendText(total+ " say hi to each other!"+"\n");
 		return;
+	}
+	
+	public boolean sameChatRoom(String [] list){
+		return Arrays.equals(people, list);
 	}
 	
 

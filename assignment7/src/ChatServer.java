@@ -18,7 +18,6 @@ public class ChatServer extends Observable {
 	private ArrayList<PrintWriter> clientOutputStreams;
 	private int maxClientsCount;
 	Socket clientSocket;
-	private final ChatClient[] threads = new ChatClient [maxClientsCount];
 	static ArrayList<ChatClient> clients = new ArrayList<ChatClient>();
 	public static int numClients;
 	private final HashMap<ChatClient, ChatRoom> clientWriters = new HashMap<ChatClient, ChatRoom>();
