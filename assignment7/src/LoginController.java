@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginController implements Initializable {
@@ -21,7 +22,7 @@ public class LoginController implements Initializable {
 	private TextField username;
 	
 	@FXML
-	private TextField password;
+	private PasswordField password;
 	
 	@FXML
 	private Label error;
@@ -113,7 +114,6 @@ public class LoginController implements Initializable {
 				PrintWriter pw = new PrintWriter(bw);
 				pw.println(username);
 				pw.close();
-				fw.close();
 				
 				fw = new FileWriter("usernamesToPasswords.txt", true);
 				bw = new BufferedWriter(fw);
