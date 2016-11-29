@@ -131,8 +131,8 @@ public class ChatClientController implements Initializable {
 
 		private void setUpNetworking() throws Exception {
 			@SuppressWarnings("resource")
-			//Socket sock = new Socket("128.62.23.11", 4242);
-			Socket sock = new Socket("127.0.0.1", 4242);
+			Socket sock = new Socket(ChatClient.ipAddress, 4242);
+			//Socket sock = new Socket("127.0.0.1", 4242);
 			streamReader = new InputStreamReader(sock.getInputStream());
 			reader = new BufferedReader(streamReader);
 			writer = new PrintWriter(sock.getOutputStream());

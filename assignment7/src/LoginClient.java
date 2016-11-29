@@ -16,6 +16,8 @@ public class LoginClient extends Application {
 		try {
 			loginPane = (AnchorPane) FXMLLoader.load(ChatClient.class.getResource("LoginController.fxml"));
 			Scene loginScene = new Scene(loginPane);
+			loginScene.getStylesheets().add("loginStyle.css");
+			loginPane.getStyleClass().add("pane");
 			loginStage.setScene(loginScene);
 				
 			loginStage.show();
