@@ -1,0 +1,62 @@
+.pane {
+	-fx-background-color: #3A3939;
+}
+
+.button {
+  -fx-background-color: 
+  		#858585,
+  		linear-gradient(#858585 0%, #000000 15%);
+
+  -fx-border-radius: 6px;
+  -fx-text-fill: #CFCECE;
+}
+
+.label {
+	-fx-text-fill: #CFCECE;
+}
+
+.text-input {
+	-fx-background-color: #AEAEAE;
+	-fx-prompt-text-fill: #3A3939;
+	-fx-border-color: #858585;
+}
+
+.choice-box {
+  -fx-background-color: 
+  		#858585,
+  		linear-gradient(#858585 0%, #000000 15%);
+
+  -fx-border-radius: 6px;
+   -fx-text-fill: #CFCECE;
+}
+
+.choice-box .menu-item:focused {
+   -fx-background-color: #3A3939;
+}
+
+.choice-box .context-menu {
+   -fx-background-color: #8C8C8C;
+}
+
+
+
+.tab-pane .tab {
+	-fx-background-color: #8C8C8C;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-opacity: 0;
+}
+
+.tab-pane .tab:selected {
+	-fx-background-color: #AEAEAE;
+	-fx-focus-color :#858585;
+}
+
+.text-area .content {
+	-fx-background-color: #AEAEAE;
+}
+
+.list-view {
+	-fx-background-color: #AEAEAE;
+}

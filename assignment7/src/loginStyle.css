@@ -15,4 +15,10 @@
 	-fx-text-fill: #CFCECE;
 }
 
+.text-input {
+	-fx-background-color: #AEAEAE;
+	-fx-prompt-text-fill: #3A3939;
+	-fx-border-color: #858585;
+}
+
 	
