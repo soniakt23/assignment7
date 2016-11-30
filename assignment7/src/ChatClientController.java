@@ -111,7 +111,7 @@ public class ChatClientController implements Initializable {
 			 createRoomButton.setOnAction(new EventHandler<ActionEvent>() {
 			      @Override
 			      public void handle(ActionEvent event) {
-			        writer.println("NEW ROOM" + " " + selectedChatRoom);
+			        writer.println("NEW ROOM" + selectedChatRoom);
 			        writer.flush();
 			        selectedChatRoom=ChatClient.username;
 			        roomUsers.getSelectionModel().clearSelection();
@@ -194,15 +194,20 @@ public class ChatClientController implements Initializable {
 							
 						}
 						else{
+							System.out.println(message);
 							String people[];
 							String realMsg[];
 							realMsg = message.split(":");	///you're not allowed to type semicolons LOL
+							System.out.println(realMsg[0]);
 							people = realMsg[0].split("\\s+");
+							System.out.println(people[0]);
 							//check if first part of string is the same of any chatroom.people
 							//if it is then append message to that chatroom
+							//people = Arrays.copyOfRange(people, 1,people.length);
+							Arrays.sort(people);
 							System.out.println("NJEFN" +people[0]);
 							for(ChatRoom cr: chatRooms){
-								if(cr.sameChatRoom(people)){     //if I am in the people
+								if(cr.sameChatRoom(people)){     //if I am in the peopleB
 									Platform.runLater(() -> { 
 										cr.addMessage(realMsg[1] + "\n");
 										System.out.println(realMsg[0]);

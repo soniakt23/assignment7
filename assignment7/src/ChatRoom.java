@@ -28,6 +28,7 @@ public class ChatRoom {
 	}
 	
 	public boolean sameChatRoom(String[] list) {
+		Arrays.sort(list);
 		return Arrays.equals(people,  list);
 	}
 	
