@@ -6,7 +6,10 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -95,6 +98,7 @@ public class ChatClientController implements Initializable {
 				@Override
 				public void handle(ActionEvent event) {
 					String temp2;
+<<<<<<< HEAD
 					if(tabs.getSelectionModel().getSelectedItem().getText().equals("Admin")){
 						//sender action
 						Tab tempTab = tabs.getSelectionModel().getSelectedItem();
@@ -134,6 +138,20 @@ public class ChatClientController implements Initializable {
 							outgoing.setText("");
 							outgoing.requestFocus();
 							}
+=======
+					for (ChatRoom cr : chatRooms){
+						//send to everyone in chatroom
+						if(tabs.getSelectionModel().getSelectedItem().getContent().equals(cr.txtArea)){
+						writer.println(cr.total + " :" + ChatClient.username + "- " + outgoing.getText());
+						writer.flush();
+						
+						//send to chat history
+						ChatHistory.setChatHistory(cr.total, outgoing.getText());
+						
+						//reset outgoing textbox
+						outgoing.setText("");
+						outgoing.requestFocus();
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 						}
 						
 					}
@@ -163,6 +181,7 @@ public class ChatClientController implements Initializable {
 					 //roomUsers.getItems().remove(user);
 				 }
 			    });
+<<<<<<< HEAD
 			 friendRequestBtn.setOnAction(new EventHandler <ActionEvent>() {
 				 @Override
 			      public void handle(ActionEvent event) {
@@ -179,6 +198,10 @@ public class ChatClientController implements Initializable {
 					 //usersPane.getItems().add(index, tempFriend + " Request Sent");
 				 }
 			 });
+=======
+			 
+			 usersPane.getSelectionModel().getSelectedItem();
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 		}
 
 		private void setUpNetworking() throws Exception {
@@ -207,6 +230,7 @@ public class ChatClientController implements Initializable {
 					        ArrayList<String> temp = new ArrayList<String>();
 					        System.out.println("USERS" +message);
 							Platform.runLater(() -> { 
+<<<<<<< HEAD
 							message = message.replace("NEW USERNAMES ", "");
 							if(usersPane.getItems()!=null)
 								usersPane.getItems().removeAll(unknownUsers);
@@ -224,6 +248,13 @@ public class ChatClientController implements Initializable {
 					        }
 							usersPane.getItems().addAll(temp);
 							temp.clear();
+=======
+							message = message.replace("NEW USERNAMES", "");
+							if(roomUsers.getItems()!=null)
+								roomUsers.getItems().removeAll(friends);
+							friends= message.split("\\s+");
+							roomUsers.getItems().addAll(friends);
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 							});
 							
 							}
@@ -268,6 +299,7 @@ public class ChatClientController implements Initializable {
 								}
 							}
 							chatRooms.add(new ChatRoom("ChatRoom " + (tabs.getTabs().size() + 1), child,people,message));
+<<<<<<< HEAD
 							
 						}
 						else if(message.startsWith("REQUEST")){
@@ -291,6 +323,8 @@ public class ChatClientController implements Initializable {
 							else if (ChatClient.username.equals(senderReceiver[0])){
 								//tell them something
 							}
+=======
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 							
 						}
 						else if(message.startsWith("NEW FRIEND:")){
@@ -305,9 +339,11 @@ public class ChatClientController implements Initializable {
 							}
 						}
 						else{
+							System.out.println(message);
 							String people[];
 							String realMsg[];
 							realMsg = message.split(":");	///you're not allowed to type semicolons LOL
+<<<<<<< HEAD
 							people = realMsg[0].split("\\s+");
 							//check if first part of string is the same of any chatroom.people
 							//if it is then append message to that chatroom
@@ -315,6 +351,18 @@ public class ChatClientController implements Initializable {
 							System.out.println("NJEFN" +people[0]);
 							for(ChatRoom cr: chatRooms){
 								if(cr.sameChatRoom(people)){     //if I am in the people
+=======
+							System.out.println(realMsg[0]);
+							people = realMsg[0].split("\\s+");
+							System.out.println(people[0]);
+							//check if first part of string is the same of any chatroom.people
+							//if it is then append message to that chatroom
+							//people = Arrays.copyOfRange(people, 1,people.length);
+							Arrays.sort(people);
+							System.out.println("NJEFN" +people[0]);
+							for(ChatRoom cr: chatRooms){
+								if(cr.sameChatRoom(people)){     //if I am in the peopleB
+>>>>>>> 9dd40369a919b1e42f84d7af7b88a117cf936fa1
 									Platform.runLater(() -> { 
 										cr.addMessage(realMsg[1] + "\n");
 										System.out.println(realMsg[0]);
