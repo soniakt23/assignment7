@@ -18,10 +18,12 @@ public class ChatServer extends Observable {
 	private ArrayList<PrintWriter> clientOutputStreams;
 	private int maxClientsCount;
 	Socket clientSocket;
+	private final ChatClient[] threads = new ChatClient [maxClientsCount];
 	static ArrayList<ChatClient> clients = new ArrayList<ChatClient>();
 	public static int numClients;
 	private final HashMap<ChatClient, ChatRoom> clientWriters = new HashMap<ChatClient, ChatRoom>();
 	private String userNameFile = "userlogins.txt";
+	private String friendsList = "friends.txt";
 
 	public static void main(String[] args) {
 		try {
@@ -72,10 +74,25 @@ private void setUpNetworking() throws Exception {
 						}
 						
 					}
+					
+					else if(message.startsWith("FRIENDSLIST")){
+						String username = message.replace("FRIENDSLIST", "");
+						BufferedReader fr = new BufferedReader(new FileReader(friendsList)); 
+						while ((line = fr.readLine()) != null )
+						{
+							if(line.startsWith(username)){
+								line = line.replace(username +" ", "");
+							       message=(message +":"+ line);
+							}
+						}
+						
+					}
+					
 					setChanged();
 					notifyObservers(message);
 						
-				}
+				
+			}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -1,0 +1,18 @@
+.pane {
+	-fx-background-color: #3A3939;
+}
+
+.button {
+  -fx-background-color: 
+  		#858585,
+  		linear-gradient(#858585 0%, #000000 15%);
+
+  -fx-border-radius: 6px;
+  -fx-text-fill: #CFCECE;
+}
+
+.label {
+	-fx-text-fill: #CFCECE;
+}
+
+	

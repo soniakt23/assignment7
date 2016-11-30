@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +23,9 @@ public class LoginController implements Initializable {
 	private TextField username;
 	
 	@FXML
+	private TextField ipTextField;
+	
+	@FXML
 	private PasswordField password;
 	
 	@FXML
@@ -29,6 +33,12 @@ public class LoginController implements Initializable {
 	
 	@FXML
 	private Button loginButton;
+	
+	@FXML
+	private Button signUpButton;
+	
+	@FXML
+	private Button forgotButton;
 		
 		@Override
 		public void initialize(URL fxmlFileLoction, ResourceBundle resources) {
@@ -39,26 +49,25 @@ public class LoginController implements Initializable {
 					error.setText("");
 					//if have user but incorrect password
 					if (hasUser(username.getText()) && !authenticate(username.getText(), password.getText())) {
+						//Platform.runLater(() -> { 
 						error.setText("Invalid password.");
 						password.setText("");
+						//});
+					}
+					//if no host ip
+					else if (ipTextField.getText().isEmpty()) {
+						error.setText("Must set host IP address.");
 					}
 					//if don't have user
 					else if (!hasUser(username.getText())) {
-						ChatClient client = new ChatClient(username.getText(), password.getText());
-						ChatServer.clients.add(client);
-						ChatServer.numClients++;
-						client.setGUIClient();
-						client.gui.start(null);
-						addUserToDB(username.getText(), password.getText());
-						LoginClient.loginStage.close();
-						
+						error.setText("Invalid username.");
 						//printlines for debugging
-						System.out.println(ChatServer.numClients);
-						System.out.println(ChatServer.clients.size());
+//						System.out.println(ChatServer.numClients);
+	//					System.out.println(ChatServer.clients.size());
 					}
 					//if have user and correct password
 					else if (hasUser(username.getText()) && authenticate(username.getText(), password.getText())) {
-						ChatClient client = new ChatClient(username.getText(), password.getText());
+						ChatClient client = new ChatClient(username.getText(), password.getText(), ipTextField.getText());
 						client.setGUIClient();
 						client.gui.start(null);
 						//int id = ChatServer.usernameToID.get(username.getText());
@@ -66,6 +75,24 @@ public class LoginController implements Initializable {
 						System.out.println(ChatServer.numClients);
 						LoginClient.loginStage.close();
 					}
+				}
+			});
+			
+			signUpButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					SignUpClient sClient = new SignUpClient();
+					sClient.start(null);
+					
+				}
+			});
+			
+			forgotButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					ForgotClient fClient = new ForgotClient();
+					fClient.start(null);
+					
 				}
 			});
 		}
@@ -104,26 +131,6 @@ public class LoginController implements Initializable {
 			}
 
 			return false;
-		}
-		
-		private void addUserToDB(String username, String password) {
-			FileWriter fw;
-			try {
-				fw = new FileWriter("userlogins.txt", true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				PrintWriter pw = new PrintWriter(bw);
-				pw.println(username);
-				pw.close();
-				
-				fw = new FileWriter("usernamesToPasswords.txt", true);
-				bw = new BufferedWriter(fw);
-				pw = new PrintWriter(bw);
-				pw.println(username + "//" + password);
-				pw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	
 }

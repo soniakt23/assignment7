@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signUpController">
+   <children>
+   	  <Button fx:id="signUpButton" layoutX="114.0" layoutY="214.0" mnemonicParsing="false" text="Sign Up" />
+      <TextField fx:id="username" layoutX="68.0" layoutY="58.0" promptText="Username" />
+      <PasswordField fx:id="password" layoutX="68.0" layoutY="91.0" promptText="Password" />
+      <PasswordField fx:id="password2" layoutX="68.0" layoutY="124.0" promptText="Retype Password" />
+      <DatePicker fx:id="birthday" layoutX="56.0" layoutY="158.0" promptText="Birthday" />
+      <Label layoutX="28.0" layoutY="25.0" text="Create Account" />
+      <Label fx:id="errorLabel" layoutX="54.0" layoutY="191.0" />
+   </children>
+</AnchorPane>

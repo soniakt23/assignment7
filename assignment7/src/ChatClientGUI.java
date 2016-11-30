@@ -17,6 +17,7 @@ public class ChatClientGUI extends Application {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChatClient.fxml"));
 				clientPane = (AnchorPane) fxmlLoader.load();
 				Scene clientScene = new Scene(clientPane);
+				clientScene.getStylesheets().add("clientStyle.css");
 				clientStage.setScene(clientScene);
 				clientStage.setTitle(ChatClient.username);
 				
